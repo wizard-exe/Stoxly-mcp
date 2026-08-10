@@ -22,6 +22,9 @@ https://www.stoxlyonline.com/api/mcp
 
 ## Tools
 
+- `analyze_stock` - Fundamental analysis of a publicly traded stock. Returns a 0-10 fundamental score, a descriptive verdict, 10 per-criterion checks, all underlying metrics and a link to the full analysis page.
+- `analyze_etf` - Analysis of a US-listed ETF. Returns a 0-10 fund score, a descriptive verdict, 10 per-criterion checks, all underlying metrics and a link to the full analysis page.
+
 ### analyze_stock
 
 Fundamental analysis of a publicly traded stock. Returns company name, price, the 10-point `score`, a descriptive `verdict`, per-criterion `checks` (P/E, PEG, price/book, revenue growth, ROE, operating margin, return on assets, quick ratio, debt/equity, free cash flow yield), all metric values and the canonical analysis URL. `null` means a metric was unavailable — never treat it as 0.
