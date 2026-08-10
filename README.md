@@ -22,8 +22,21 @@ https://www.stoxlyonline.com/api/mcp
 
 ## Tools
 
-- `analyze_stock` - Fundamental analysis of a publicly traded stock. Takes a `symbol` (ticker in Yahoo Finance format, e.g. `AAPL`, `BRK-B`, `SAP.DE`) and returns company name, price, the 10-point `score`, a descriptive `verdict`, per-criterion `checks`, all metric values and the canonical analysis URL. `null` means a metric was unavailable — never treat it as 0.
-- `analyze_etf` - Analysis of a US-listed ETF. Takes a `symbol` (e.g. `VOO`, `QQQ`, `SCHD`) and returns fund name, price, the 10-point `score`, `verdict`, per-criterion `checks` (expense ratio, fund size, age, holdings, concentration, volatility, 1/3/5-year returns), all metric values and the canonical analysis URL.
+### analyze_stock
+
+Fundamental analysis of a publicly traded stock. Returns company name, price, the 10-point `score`, a descriptive `verdict`, per-criterion `checks` (P/E, PEG, price/book, revenue growth, ROE, operating margin, return on assets, quick ratio, debt/equity, free cash flow yield), all metric values and the canonical analysis URL. `null` means a metric was unavailable — never treat it as 0.
+
+**Parameters:**
+
+- `symbol` (string, required): Ticker in Yahoo Finance format, e.g. `AAPL`, `BRK-B`, `SAP.DE`
+
+### analyze_etf
+
+Analysis of a US-listed ETF. Returns fund name, price, the 10-point `score`, `verdict`, per-criterion `checks` (expense ratio, fund size, fund age, holdings, concentration, volatility, 1/3/5-year returns), all metric values and the canonical analysis URL.
+
+**Parameters:**
+
+- `symbol` (string, required): Ticker, e.g. `VOO`, `QQQ`, `SCHD`
 
 ## Setup
 
