@@ -6,6 +6,8 @@ Stoxly evaluates any publicly traded company against a 10-point fundamental chec
 
 This is a **remote MCP server** — nothing to install or run locally.
 
+**Docs:** https://www.stoxlyonline.com/mcp
+
 ## Endpoint
 
 ```
