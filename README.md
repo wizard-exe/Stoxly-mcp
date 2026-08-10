@@ -1,5 +1,7 @@
 # Stoxly MCP Server
 
+[![smithery badge](https://smithery.ai/badge/stoxlyanalysis/stoxly)](https://smithery.ai/servers/stoxlyanalysis/stoxly)
+
 Free fundamental analysis of stocks and ETFs for AI agents, powered by [Stoxly](https://www.stoxlyonline.com).
 
 Stoxly evaluates any publicly traded company against a 10-point fundamental checklist (P/E, PEG, price/book, revenue growth, ROE, operating margin, return on assets, quick ratio, debt/equity, free cash flow yield) — and any US-listed ETF against 10 fund criteria (expense ratio, fund size, fund age, holdings, concentration, volatility, 1/3/5-year returns). Each analysis returns a 0–10 score, a descriptive verdict, every underlying metric and a link to the full analysis page.
