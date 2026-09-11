@@ -1,0 +1,39 @@
+{
+  "name": "stoxly-mcp",
+  "version": "1.0.0",
+  "description": "Free fundamental stock & ETF analysis for AI agents: 10-point score, verdict and key metrics for any ticker.",
+  "type": "module",
+  "main": "server.js",
+  "bin": {
+    "stoxly-mcp": "server.js"
+  },
+  "files": [
+    "server.js"
+  ],
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test/smoke.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wizard-exe/Stoxly-mcp.git"
+  },
+  "homepage": "https://www.stoxlyonline.com/mcp",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "stocks",
+    "etf",
+    "fundamental-analysis",
+    "finance"
+  ],
+  "author": "Maximilian Krug",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "zod": "^4.6.2"
+  }
+}

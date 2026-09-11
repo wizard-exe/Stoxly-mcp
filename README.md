@@ -6,7 +6,7 @@ Free fundamental analysis of stocks and ETFs for AI agents, powered by [Stoxly](
 
 Stoxly evaluates any publicly traded company against a 10-point fundamental checklist (P/E, PEG, price/book, revenue growth, ROE, operating margin, return on assets, quick ratio, debt/equity, free cash flow yield) — and any US-listed ETF against 10 fund criteria (expense ratio, fund size, fund age, holdings, concentration, volatility, 1/3/5-year returns). Each analysis returns a 0–10 score, a descriptive verdict, every underlying metric and a link to the full analysis page.
 
-This is a **remote MCP server** — nothing to install or run locally.
+Available as a **remote MCP server** (Streamable HTTP, nothing to install) and as a **stdio server** (`server.js`, for clients and platforms that run MCP servers as a local process — e.g. Glama, Docker).
 
 **Docs:** https://www.stoxlyonline.com/mcp
 
@@ -42,6 +42,37 @@ Analysis of a US-listed ETF. Returns fund name, price, the 10-point `score`, `ve
 - `symbol` (string, required): Ticker, e.g. `VOO`, `QQQ`, `SCHD`
 
 ## Setup
+
+### Local stdio server
+
+```bash
+git clone https://github.com/wizard-exe/Stoxly-mcp.git
+cd Stoxly-mcp
+npm ci
+node server.js
+```
+
+Or with Docker:
+
+```bash
+docker build -t stoxly-mcp .
+docker run -i --rm stoxly-mcp
+```
+
+MCP client config (stdio):
+
+```json
+{
+  "mcpServers": {
+    "stoxly": {
+      "command": "node",
+      "args": ["/path/to/Stoxly-mcp/server.js"]
+    }
+  }
+}
+```
+
+The stdio server fetches the scored analysis from `https://www.stoxlyonline.com/api/analyze` (same 30 requests per IP per hour limit). No API key or environment variables are required.
 
 ### Claude Code
 

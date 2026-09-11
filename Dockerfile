@@ -1,4 +1,9 @@
-# stdio bridge to the hosted Stoxly MCP endpoint (Streamable HTTP, no auth)
+# Stoxly MCP server (stdio) — same two tools as the hosted endpoint at
+# https://www.stoxlyonline.com/api/mcp, packaged for clients that run MCP
+# servers as a local process.
 FROM node:22-alpine
-RUN npm install -g mcp-remote
-ENTRYPOINT ["mcp-remote", "https://www.stoxlyonline.com/api/mcp"]
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev
+COPY server.js ./
+ENTRYPOINT ["node", "server.js"]
