@@ -1,4 +1,4 @@
-# Stoxly MCP server (stdio) — same two tools as the hosted endpoint at
+# Stoxly MCP server (stdio) — same three tools as the hosted endpoint at
 # https://www.stoxlyonline.com/api/mcp, packaged for clients that run MCP
 # servers as a local process.
 FROM node:22-alpine

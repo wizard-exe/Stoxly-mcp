@@ -1,7 +1,7 @@
 {
   "name": "stoxly-mcp",
-  "version": "1.0.0",
-  "description": "Free fundamental stock & ETF analysis for AI agents: 10-point score, verdict and key metrics for any ticker.",
+  "version": "1.1.0",
+  "description": "Free stock, ETF & crypto analysis for AI agents: 10-point score, descriptive verdict and key metrics for any ticker.",
   "type": "module",
   "main": "server.js",
   "bin": {
@@ -27,6 +27,7 @@
     "model-context-protocol",
     "stocks",
     "etf",
+    "crypto",
     "fundamental-analysis",
     "finance"
   ],

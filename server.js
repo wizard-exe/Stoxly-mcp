@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Stoxly MCP server (stdio). Exposes the same two tools as the hosted
+// Stoxly MCP server (stdio). Exposes the same three tools as the hosted
 // Streamable HTTP endpoint (https://www.stoxlyonline.com/api/mcp) for clients
 // and platforms that run MCP servers as a local process.
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
@@ -10,10 +10,20 @@ const API_BASE = process.env.STOXLY_API_BASE || 'https://www.stoxlyonline.com';
 const REQUEST_TIMEOUT_MS = 45_000;
 
 const SYMBOL_PATTERN = /^[A-Z0-9][A-Z0-9.\-^=]{0,14}$/;
+const CRYPTO_SYMBOL_PATTERN = /^[A-Z0-9]{1,12}$/;
 
 const symbolSchema = z
   .string()
   .describe('Ticker symbol in Yahoo Finance format, e.g. AAPL, BRK-B, SAP.DE, VOO');
+
+const cryptoSymbolSchema = z
+  .string()
+  .describe('Crypto ticker symbol, e.g. BTC, ETH, SOL (a -USD suffix is accepted)');
+
+// Same normalization as the hosted endpoint: trim, uppercase, strip -USD/-USDT.
+function normalizeCryptoSymbol(symbol) {
+  return symbol.trim().toUpperCase().replace(/-(USD|USDT)$/, '');
+}
 
 function jsonContent(payload) {
   return { content: [{ type: 'text', text: JSON.stringify(payload, null, 2) }] };
@@ -24,14 +34,17 @@ function errorContent(message) {
 }
 
 async function analyze(type, symbol) {
-  const sym = symbol.trim().toUpperCase();
-  if (!SYMBOL_PATTERN.test(sym)) {
-    return errorContent(`"${symbol}" is not a valid ticker symbol.`);
+  const sym = type === 'crypto' ? normalizeCryptoSymbol(symbol) : symbol.trim().toUpperCase();
+  const pattern = type === 'crypto' ? CRYPTO_SYMBOL_PATTERN : SYMBOL_PATTERN;
+  if (!pattern.test(sym)) {
+    return errorContent(
+      `"${symbol}" is not a valid ${type === 'crypto' ? 'crypto' : 'ticker'} symbol.`
+    );
   }
   const url = `${API_BASE}/api/analyze?type=${type}&symbol=${encodeURIComponent(sym)}`;
   try {
     const res = await fetch(url, {
-      headers: { accept: 'application/json', 'user-agent': 'stoxly-mcp/1.0.0' },
+      headers: { accept: 'application/json', 'user-agent': 'stoxly-mcp/1.1.0' },
       signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
     });
     const body = await res.json().catch(() => null);
@@ -47,7 +60,7 @@ async function analyze(type, symbol) {
   }
 }
 
-const server = new McpServer({ name: 'stoxly', version: '1.0.0' });
+const server = new McpServer({ name: 'stoxly', version: '1.1.0' });
 
 server.registerTool(
   'analyze_stock',
@@ -71,6 +84,18 @@ server.registerTool(
     annotations: { readOnlyHint: true, openWorldHint: true },
   },
   ({ symbol }) => analyze('etf', symbol)
+);
+
+server.registerTool(
+  'analyze_crypto',
+  {
+    title: 'Analyze crypto-asset',
+    description:
+      "Free analysis of a crypto-asset (coin or token). Scores it against Stoxly's 10-point crypto checklist (market cap, market cap rank, 24h volume/market cap, exchange count, supply issued, project age, developer commits, volatility, 1-year and 3-year returns) and returns the score, a descriptive verdict, every metric value and a link to the full analysis page.",
+    inputSchema: { symbol: cryptoSymbolSchema },
+    annotations: { readOnlyHint: true, openWorldHint: true },
+  },
+  ({ symbol }) => analyze('crypto', symbol)
 );
 
 const transport = new StdioServerTransport();

@@ -1,13 +1,13 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.wizard-exe/stoxly",
-  "description": "Free fundamental stock & ETF analysis: 10-point score, verdict and key metrics for any ticker.",
+  "description": "Free stock, ETF & crypto analysis: 10-point score, descriptive verdict and key metrics for any ticker.",
   "repository": {
     "url": "https://github.com/wizard-exe/Stoxly-mcp",
     "source": "github"
   },
   "websiteUrl": "https://www.stoxlyonline.com/mcp",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "remotes": [
     {
       "type": "streamable-http",

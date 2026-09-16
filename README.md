@@ -2,9 +2,9 @@
 
 [![smithery badge](https://smithery.ai/badge/stoxlyanalysis/stoxly)](https://smithery.ai/servers/stoxlyanalysis/stoxly)
 
-Free fundamental analysis of stocks and ETFs for AI agents, powered by [Stoxly](https://www.stoxlyonline.com).
+Free stock, ETF and crypto analysis for AI agents, powered by [Stoxly](https://www.stoxlyonline.com).
 
-Stoxly evaluates any publicly traded company against a 10-point fundamental checklist (P/E, PEG, price/book, revenue growth, ROE, operating margin, return on assets, quick ratio, debt/equity, free cash flow yield) — and any US-listed ETF against 10 fund criteria (expense ratio, fund size, fund age, holdings, concentration, volatility, 1/3/5-year returns). Each analysis returns a 0–10 score, a descriptive verdict, every underlying metric and a link to the full analysis page.
+Stoxly evaluates any publicly traded company against a 10-point fundamental checklist (P/E, PEG, price/book, revenue growth, ROE, operating margin, return on assets, quick ratio, debt/equity, free cash flow yield) — any US-listed ETF against 10 fund criteria (expense ratio, fund size, fund age, holdings, concentration, volatility, 1/3/5-year returns) — and any crypto-asset listed on CoinGecko or CoinPaprika against 10 crypto criteria (market cap, market cap rank, 24h volume/market cap, exchange count, supply issued, project age, developer commits, volatility, 1/3-year returns). Each analysis returns a 0–10 score, a descriptive verdict, every underlying metric and a link to the full analysis page.
 
 Available as a **remote MCP server** (Streamable HTTP, nothing to install) and as a **stdio server** (`server.js`, for clients and platforms that run MCP servers as a local process — e.g. Glama, Docker).
 
@@ -24,6 +24,7 @@ https://www.stoxlyonline.com/api/mcp
 
 - `analyze_stock` - Fundamental analysis of a publicly traded stock. Returns a 0-10 fundamental score, a descriptive verdict, 10 per-criterion checks, all underlying metrics and a link to the full analysis page.
 - `analyze_etf` - Analysis of a US-listed ETF. Returns a 0-10 fund score, a descriptive verdict, 10 per-criterion checks, all underlying metrics and a link to the full analysis page.
+- `analyze_crypto` - Analysis of a crypto-asset (coin or token). Returns a 0-10 crypto score, a descriptive verdict, 10 per-criterion checks, all underlying metrics and a link to the full analysis page.
 
 ### analyze_stock
 
@@ -40,6 +41,14 @@ Analysis of a US-listed ETF. Returns fund name, price, the 10-point `score`, `ve
 **Parameters:**
 
 - `symbol` (string, required): Ticker, e.g. `VOO`, `QQQ`, `SCHD`
+
+### analyze_crypto
+
+Analysis of a crypto-asset (coin or token). Returns coin name, price, the 10-point `score`, `verdict`, per-criterion `checks` (market cap, market cap rank, 24h volume/market cap, exchange count, supply issued, project age, developer commits, volatility, 1-year and 3-year returns), all metric values and the canonical analysis URL. Unknown symbols return an error.
+
+**Parameters:**
+
+- `symbol` (string, required): Crypto ticker symbol, e.g. `BTC`, `ETH`, `SOL` (a `-USD` suffix is accepted)
 
 ## Setup
 
@@ -72,7 +81,7 @@ MCP client config (stdio):
 }
 ```
 
-The stdio server fetches the scored analysis from `https://www.stoxlyonline.com/api/analyze` (same 30 requests per IP per hour limit). No API key or environment variables are required.
+The stdio server fetches the scored analysis from `https://www.stoxlyonline.com/api/analyze` (`type=stock|etf|crypto`, same 30 requests per IP per hour limit). No API key or environment variables are required.
 
 ### Claude Code
 
@@ -116,7 +125,7 @@ The agent calls `analyze_stock` with `{"symbol": "AAPL"}` and receives:
 
 ## Data & methodology
 
-Data is aggregated from Financial Modeling Prep, Yahoo Finance, Finnhub and Alpha Vantage, plus official regulatory filings (SEC EDGAR for US filers, ESEF/UKSEF via filings.xbrl.org for Europe/UK). Scoring thresholds are documented at [stoxlyonline.com/about](https://www.stoxlyonline.com/about) and in [llms-full.txt](https://www.stoxlyonline.com/llms-full.txt).
+Data is aggregated from Financial Modeling Prep, Yahoo Finance, Finnhub and Alpha Vantage, plus official regulatory filings (SEC EDGAR for US filers, ESEF/UKSEF via filings.xbrl.org for Europe/UK). Crypto market, supply and developer data comes from CoinGecko with CoinPaprika as fallback; crypto price history from Yahoo Finance. Scoring thresholds are documented at [stoxlyonline.com/about](https://www.stoxlyonline.com/about) and in [llms-full.txt](https://www.stoxlyonline.com/llms-full.txt).
 
 ## Disclaimer
 

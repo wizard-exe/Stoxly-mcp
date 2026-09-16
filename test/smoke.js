@@ -10,7 +10,7 @@ await client.connect(
 
 const { tools } = await client.listTools();
 const names = tools.map((t) => t.name).sort();
-if (names.join(',') !== 'analyze_etf,analyze_stock') {
+if (names.join(',') !== 'analyze_crypto,analyze_etf,analyze_stock') {
   throw new Error(`unexpected tools: ${names.join(', ')}`);
 }
 
@@ -19,5 +19,10 @@ if (!invalid.isError) {
   throw new Error('invalid symbol was not rejected');
 }
 
+const invalidCrypto = await client.callTool({ name: 'analyze_crypto', arguments: { symbol: '???' } });
+if (!invalidCrypto.isError) {
+  throw new Error('invalid crypto symbol was not rejected');
+}
+
 await client.close();
-console.log('ok: 2 tools listed, invalid symbol rejected');
+console.log('ok: 3 tools listed, invalid symbols rejected');
