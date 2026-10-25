@@ -1,6 +1,6 @@
 # Stoxly MCP Server
 
-[![smithery badge](https://smithery.ai/badge/stoxlyanalysis/stoxly)](https://smithery.ai/servers/stoxlyanalysis/stoxly)
+[![LightNow capabilities](https://lightnow.ai/badge/io.github.wizard-exe/stoxly)](https://lightnow.ai/servers/io.github.wizard-exe/stoxly)
 
 Free stock, ETF and crypto analysis for AI agents, powered by [Stoxly](https://www.stoxlyonline.com).
 
